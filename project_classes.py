@@ -16,6 +16,17 @@ class Lecturer(Mentor):
     def __str__(self):
         return f'{super().__str__()}\nСредняя оценка за лекции: {sum(self.grades) / len(self.grades):.1f}'
 
+# Магические методы сравнения
+    def __gt__(self, other):
+        return (sum(self.grades) / len(self.grades)) > (sum(other.grades) / len(other.grades))
+
+    def __lt__(self, other):
+        return (sum(self.grades) / len(self.grades)) < (sum(other.grades) / len(other.grades))
+
+    def __eq__(self, other):
+        return (sum(self.grades) / len(self.grades)) == (sum(other.grades) / len(other.grades))
+
+
 class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
@@ -52,6 +63,17 @@ class Student:
         courses_in_progress_str = ', '.join(self.courses_in_progress)
         finished_courses_str = ', '.join(self.finished_courses)
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {avg_grade:.1f}\nКурсы в процессе изучения: {courses_in_progress_str}\nЗавершенные курсы: {finished_courses_str}'
+
+# Магические методы сравнения
+    def __gt__(self, other):
+        return (sum([sum(grades) for grades in self.grades.values()]) / sum([len(grades) for grades in self.grades.values()])) > (sum([sum(grades) for grades in other.grades.values()]) / sum([len(grades) for grades in other.grades.values()]))
+
+    def __lt__(self, other):
+        return (sum([sum(grades) for grades in self.grades.values()]) / sum([len(grades) for grades in self.grades.values()])) > (sum([sum(grades) for grades in other.grades.values()]) / sum([len(grades) for grades in other.grades.values()]))
+
+    def __eq__(self, other):
+        return (sum([sum(grades) for grades in self.grades.values()]) / sum([len(grades) for grades in self.grades.values()])) > (sum([sum(grades) for grades in other.grades.values()]) / sum([len(grades) for grades in other.grades.values()]))
+
 
 # Создание экземпляров классов
 student1 = Student('Ruoy', 'Eman', 'Male')
